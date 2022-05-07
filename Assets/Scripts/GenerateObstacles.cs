@@ -29,7 +29,7 @@ public class GenerateObstacles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkToDestroy();
+        //checkToDestroy();
         
     }
 
@@ -54,9 +54,7 @@ public class GenerateObstacles : MonoBehaviour
             {
             if(obs.transform.position.y<-5)
             {
-                Destroy(obs);
                 obstacles.Remove(obs);
-
             }
             }
         }

@@ -22,32 +22,36 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        roadBounds = road.transform.GetComponent<SpriteRenderer>().bounds.extents;
+        roadBounds = road.transform.position;
+        print("road bounds: "+roadBounds);
     }
 
     // Update is called once per frame
     void Update()
     {
        direction = Input.GetAxis("Horizontal")*Time.deltaTime*moveSpeed;
+       print("Input.GetAxis "+Input.GetAxis("Horizontal"));
+       print("moveSpeed "+moveSpeed);
+       print("delta time "+Time.deltaTime);
 
        accumulate+=direction;
 
        transform.position = new Vector3(accumulate,transform.position.y,-1);
        
        Vector3 viewPos = transform.position;
-       viewPos.x = Mathf.Clamp(viewPos.x,roadBounds.x-2,roadBounds.x+2);
+       viewPos.x = Mathf.Clamp(viewPos.x,-5,5);
         transform.position = viewPos;
 
     }
 
 
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        if(col!=null)
-        {
-             AudioSource.PlayClipAtPoint(crashSound,col.transform.position);
-        Destroy(col.gameObject);
-        }
-    }
+    // void OnCollisionEnter2D(Collision2D col)
+    // {
+    //     if(col!=null)
+    //     {
+    //          AudioSource.PlayClipAtPoint(crashSound,col.transform.position);
+    //          print("collision "+col.transform.name);
+    //     }
+    // }
    
 }
