@@ -6,33 +6,48 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float moveSpeed = 1.0f;
+    public float moveSpeed = 100f;
+
+    public GenerateObstacles generateObstacles;
+
+    public AudioClip crashSound;
+
+    float accumulate = 0.0f;
     private float direction;
-    private Vector2 screenBounds;
-    float objectHeight, objectWidth;
+
+    public GameObject road;
+
+    Vector2 roadBounds;
+  
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height,Camera.main.transform.position.z));
-        objectWidth = transform.GetComponent<SpriteRenderer>().bounds.extents.x; //extents = size of width / 2
-        objectHeight = transform.GetComponent<SpriteRenderer>().bounds.extents.y; //extents = size of height / 2
+        roadBounds = road.transform.GetComponent<SpriteRenderer>().bounds.extents;
     }
 
     // Update is called once per frame
     void Update()
     {
-        direction = Input.GetAxisRaw("Horizontal");
-        
-  
-        Vector3 viewPos = transform.position;
-        viewPos.x = Mathf.Clamp(viewPos.x, screenBounds.x*-1 + objectWidth, screenBounds.x - objectWidth);
-        //viewPos.y = Mathf.Clamp(viewPos.y, screenBounds.y + objectHeight, screenBounds.y * -1 - objectHeight);
+       direction = Input.GetAxis("Horizontal")*Time.deltaTime*moveSpeed;
+
+       accumulate+=direction;
+
+       transform.position = new Vector3(accumulate,transform.position.y,-1);
+       
+       Vector3 viewPos = transform.position;
+       viewPos.x = Mathf.Clamp(viewPos.x,roadBounds.x-2,roadBounds.x+2);
         transform.position = viewPos;
+
     }
-    private void FixedUpdate()
+
+
+    void OnCollisionEnter2D(Collision2D col)
     {
-        rb.velocity = Vector2.zero;
-        rb.velocity = new Vector2(direction * Time.fixedTime * moveSpeed, 0);
+        if(col!=null)
+        {
+             AudioSource.PlayClipAtPoint(crashSound,col.transform.position);
+        Destroy(col.gameObject);
+        }
     }
+   
 }

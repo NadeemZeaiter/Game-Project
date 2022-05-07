@@ -5,7 +5,8 @@ using UnityEngine;
 public class Obstacles : MonoBehaviour
 {
     // Start is called before the first frame update
-    float moveSpeed = 1f;
+
+    public ScrollingBackground scrollingBackground;
     private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
@@ -14,9 +15,12 @@ public class Obstacles : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        rb.velocity = Vector2.zero;
-        rb.velocity = new Vector2(0, moveSpeed * Time.time * -1);
+        rb.velocity = new Vector2(0, -scrollingBackground.scrollSpeed*5f);
     }
+
+
+
+    
 }
