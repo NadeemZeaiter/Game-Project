@@ -29,12 +29,13 @@ public class GenerateObstacles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //checkToDestroy();
+        checkToDestroy();
         
     }
 
 
     IEnumerator spawn(){
+        yield return new WaitForSeconds(Random.Range(2f, 4f));
         while (true){
         GameObject v = GameObject.Instantiate(obstacle);
         v.transform.localScale = new Vector3(0.1388645f,0.1726376f,1);
@@ -55,6 +56,7 @@ public class GenerateObstacles : MonoBehaviour
             if(obs.transform.position.y<-5)
             {
                 obstacles.Remove(obs);
+                Destroy(obs);
             }
             }
         }
