@@ -18,7 +18,7 @@ public class GenerateComet : MonoBehaviour {
     }
     private void spawnEnemy(){
         GameObject a = Instantiate(cometPrefab) as GameObject;
-        a.transform.position = new Vector3(bounds.extents.x -2, Random.Range(-bounds.extents.y, bounds.extents.y),-1);
+        a.transform.position = new Vector3(bounds.extents.x -1, Random.Range(-bounds.extents.y, bounds.extents.y),-1);
     }
     IEnumerator asteroidWave(){
         while(true){

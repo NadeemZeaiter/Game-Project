@@ -19,6 +19,11 @@ public class Obstacles : MonoBehaviour
     {
         rb.velocity = new Vector2(0, -scrollingBackground.scrollSpeed*5f);
     }
+    
+
+        void OnBecameInvisible() {
+         Destroy(gameObject);
+     }
 
 
 

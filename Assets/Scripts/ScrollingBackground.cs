@@ -8,6 +8,10 @@ public class ScrollingBackground : MonoBehaviour
 
     public Text speedInxcreasedText;
 
+    public GenerateObstacles generateObstacles;
+
+    private IEnumerator coroutine;
+
     int timeToDisplayText = 1;
 
     float timer = 0.0f;
@@ -26,8 +30,10 @@ public class ScrollingBackground : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        coroutine = startCountToSpawnEnemy();
+        StartCoroutine(coroutine);
         rend = GetComponent<Renderer>();
-        StartCoroutine(incrementSpeed());
+        incrementSpeed();
         speedInxcreasedText.enabled = false;
     }
 
@@ -58,17 +64,30 @@ public class ScrollingBackground : MonoBehaviour
     }
 
     
-    IEnumerator incrementSpeed(){
-        while (true){
-            speedIndex+=1;
-            if(speedIndex != 8)
-            {
-                scrollSpeed = scrollSpeeds[speedIndex];
+    void incrementSpeed(){
+        speedIndex+=1;
+        if(speedIndex<8)
+        {
+            scrollSpeed = scrollSpeeds[speedIndex];
+        }
+        
+    }
+
+    IEnumerator startCountToSpawnEnemy()
+    {
+         yield return new WaitForSeconds(20f);
+         spawnEnemy();
+         StopCoroutine(coroutine);
+
+    }
+
+
+     void spawnEnemy(){
                 enabled = true;
                 speedInxcreasedText.enabled = true;
-            }
-        
-        yield return new WaitForSeconds(20f);
-    }
+                speedInxcreasedText.text = "Enemy Detected!";
+                generateObstacles.stopSpawning();
+                generateObstacles.spawnEnemy();
+
     }
 }

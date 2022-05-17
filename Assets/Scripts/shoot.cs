@@ -5,42 +5,48 @@ using UnityEngine;
 public class shoot : MonoBehaviour
 {
 
-     public AudioClip explosion;
+    public AudioClip explosion;
 
-     public GenerateObstacles generateObstacles;
+    public GenerateObstacles generateObstacles;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-     void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if(col!=null)
+        if (col != null)
         {
-            if(col.gameObject.transform.name == "ObstaclePrefab(Clone)" || col.gameObject.transform.name == "comet(Clone)" )
+            if (col.gameObject.transform.name == "ObstaclePrefab(Clone)" || col.gameObject.transform.name == "comet(Clone)")
             {
                 print("yes");
-             AudioSource.PlayClipAtPoint(explosion,col.transform.position);
+                AudioSource.PlayClipAtPoint(explosion, col.transform.position);
 
-             if(generateObstacles != null)
-             {
+                if (generateObstacles != null)
+                {
 
-             generateObstacles.obstacles.Remove(col.gameObject);
-             }
-             Destroy(col.gameObject);
-             Destroy(gameObject);
+                    generateObstacles.obstacles.Remove(col.gameObject);
+                }
+                Destroy(col.gameObject);
+                Destroy(gameObject);
             }
-            else
-            {
-                print("no");
-            }
+
+
         }
     }
+
+    void OnEnable() {
+        GameObject[] otherObjects = GameObject.FindGameObjectsWithTag("Collect");
+
+        foreach (GameObject obj in otherObjects) {
+            Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), GetComponent<Collider2D>()); 
+        }
+}
 }

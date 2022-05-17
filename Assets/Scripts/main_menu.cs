@@ -8,4 +8,7 @@ public class main_menu : MonoBehaviour
     public void LevelOne(){
         SceneManager.LoadScene(1);
     }
+    public void LevelTwo(){
+        SceneManager.LoadScene(2);
+    }
 }

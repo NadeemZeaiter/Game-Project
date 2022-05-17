@@ -18,8 +18,12 @@ public class Comet : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if(transform.position.x < screenBounds.x * 2 && gameObject != null){
-            //Destroy(this.gameObject);
-        }
+        
     }
+
+     void OnBecameInvisible() {
+         Destroy(gameObject);
+     }
+
+
 }
